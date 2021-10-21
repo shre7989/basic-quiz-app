@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var questions = ['What is the tallest mountain on Earth?'];
+    var questions = ['What is the tallest Mountain on Earth?'];
     // TODO: implement build
     return MaterialApp(
       home: Scaffold(
