@@ -1,46 +1,83 @@
+import 'package:basic_quiz_app/result.dart';
 import 'package:flutter/material.dart';
+import './quiz.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  void answerQuestion() {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // ignore: todo
+    // TODO: implement createState
+    return _MyAppState();
+    //throw UnimplementedError();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  var _questionsIndex = 0;
+
+  void _answerHandler() {
+    setState(() {
+      if (_questionsIndex < this._questions.length) _questionsIndex++;
+    });
     print('Answer chosen');
   }
 
+  final _questions = [
+    {
+      'question': 'What is the tallest Mountain on Earth?',
+      'answers': [
+        'Mt. Everest',
+        'Mt. Kailash',
+        'Mt. Tenchu',
+        'Mt. Annapurna',
+        'Mt. Mansarovar'
+      ],
+    },
+    {
+      'question': 'Where was Buddha born?',
+      'answers': ['India', 'China', 'Mongolia', 'Srilanka', 'Nepal'],
+    },
+    {
+      'question': 'How many states are there in U.S.A?',
+      'answers': ['45', '50', '65', '55', '70'],
+    },
+    {
+      'question': 'When did the second world war end?',
+      'answers': ['1940', '1945', '1952', '1950', '1942'],
+    },
+    {
+      'question': 'Who is known as the father of Computer Science?',
+      'answers': [
+        'Alan Turing',
+        'Robert C. Martin',
+        'Charles Babbage',
+        'Bill Gates',
+        'Steve Jobs'
+      ],
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
-    var questions = ['What is the tallest Mountain on Earth?'];
+    // ignore: todo
     // TODO: implement build
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-            title: Text('My First App Bar'), backgroundColor: Colors.red[700]),
-        body: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 20,
-            ),
-            Align(
-              alignment: Alignment.center,
-            ),
-            Text(questions[0]),
-            RaisedButton(
-              child: Text('Answer 1'),
-              onPressed: answerQuestion,
-            ),
-            RaisedButton(
-              child: Text('Answer 2'),
-              onPressed: answerQuestion,
-            ),
-            RaisedButton(
-              child: Text('Answer 3'),
-              onPressed: answerQuestion,
-            ),
-          ],
-          crossAxisAlignment: CrossAxisAlignment.center,
+          title: Text('Quiz trivia'),
+          backgroundColor: Colors.blueAccent[700],
+          elevation: 10,
         ),
+        body: _questionsIndex < _questions.length
+            ? Quiz(
+                quizQuestions: _questions,
+                questionsIndex: _questionsIndex,
+                answerHandler: _answerHandler)
+            : Result(),
       ),
     );
     //throw UnimplementedError();
