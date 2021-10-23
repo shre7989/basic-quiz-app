@@ -1,5 +1,6 @@
 import 'package:basic_quiz_app/result.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './quiz.dart';
 
 void main() {
@@ -17,15 +18,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  //variables to maintain the state of the quiz
   var _questionsIndex = 0;
-
-  void _answerHandler() {
-    setState(() {
-      if (_questionsIndex < this._questions.length) _questionsIndex++;
-    });
-    print('Answer chosen');
-  }
-
+  var _score = 0;
   final _questions = [
     {
       'question': 'What is the tallest Mountain on Earth?',
@@ -36,18 +31,22 @@ class _MyAppState extends State<MyApp> {
         'Mt. Annapurna',
         'Mt. Mansarovar'
       ],
+      'correctAnswer': 'Mt. Everest',
     },
     {
       'question': 'Where was Buddha born?',
       'answers': ['India', 'China', 'Mongolia', 'Srilanka', 'Nepal'],
+      'correctAnswer': 'Nepal',
     },
     {
       'question': 'How many states are there in U.S.A?',
       'answers': ['45', '50', '65', '55', '70'],
+      'correctAnswer': '50',
     },
     {
       'question': 'When did the second world war end?',
       'answers': ['1940', '1945', '1952', '1950', '1942'],
+      'correctAnswer': '1945'
     },
     {
       'question': 'Who is known as the father of Computer Science?',
@@ -58,8 +57,30 @@ class _MyAppState extends State<MyApp> {
         'Bill Gates',
         'Steve Jobs'
       ],
+      'correctAnswer': 'Charles Babbage',
     },
   ];
+
+//Handler functions
+  void _answerHandler(answer) {
+    setState(() {
+      if (_questions[_questionsIndex]['correctAnswer'] == answer) _score += 10;
+      print(_score);
+      if (_questionsIndex < this._questions.length) _questionsIndex++;
+    });
+  }
+
+  void _resetHandler() {
+    setState(() {
+      _questionsIndex = 0;
+      _score = 0;
+    });
+  }
+
+  void _quitHandler() {
+    _resetHandler();
+    SystemNavigator.pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +98,11 @@ class _MyAppState extends State<MyApp> {
                 quizQuestions: _questions,
                 questionsIndex: _questionsIndex,
                 answerHandler: _answerHandler)
-            : Result(),
+            : Result(
+                score: _score,
+                resetHandler: _resetHandler,
+                quitHandler: _quitHandler,
+              ),
       ),
     );
     //throw UnimplementedError();

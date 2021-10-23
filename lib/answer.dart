@@ -22,7 +22,7 @@ class Answer extends StatelessWidget {
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
         ),
-        onPressed: answerHandler,
+        onPressed: () => {answerHandler(this.answerText)},
       ),
     );
   }
